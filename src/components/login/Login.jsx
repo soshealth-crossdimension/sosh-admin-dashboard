@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import {Avatar, Button, Grid, Paper, TextField} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useState } from "react";
+import { pass, userName } from "../../config/config";
 
 export default function LoginView () {
     let navigate = useNavigate();
@@ -16,7 +17,7 @@ export default function LoginView () {
 
     const handleLoginClick = (e) => {
         e.preventDefault();
-        if(input.name === 'test' && input.password === 'test'){
+        if(input.name === userName && input.password === pass){
             navigate('/dashboard');
         } else {
             setWrong(true);
@@ -32,7 +33,7 @@ export default function LoginView () {
 
     const paperStyle = {padding: 20, height: '70vh', width: 280, margin: '20px auto'}
     const avatar = {backgroundColor: '#1d1bbd'}
-    
+
     return (
         <Grid>
             <Paper elevation={10} style={paperStyle}>
