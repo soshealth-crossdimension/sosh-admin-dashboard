@@ -6,6 +6,9 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DoneIcon from '@mui/icons-material/Done';
 import ClearIcon from '@mui/icons-material/Clear';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import ApprovalModal from '../modals/approvalModal';
+import RejectModal from '../modals/rejectedModal';
+import PartiallyRejectModal from '../modals/partiallyRejectModal';
 
 const options = [
   'Accept',
@@ -14,6 +17,7 @@ const options = [
 ];
 
 const ITEM_HEIGHT = 48;
+
 
 export default function ActionMenu () {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -25,6 +29,34 @@ export default function ActionMenu () {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const [approvalModalOpen, setApprovalModalOpen] = React.useState(false);
+  const handleApprovalModalOpen = () => setApprovalModalOpen(true);
+  
+  const [rejectionModalOpen, setRejectionModalOpen] = React.useState(false);
+  const handleRejectionModalOpen = () => setRejectionModalOpen(true);
+  
+  const [partiallyRejectionModalOpen, setPartiallyRejectionModalOpen] = React.useState(false);
+  const handlePartiallyRejectionModalOpen = () => setPartiallyRejectionModalOpen(true);
+  
+  const handleMenuSelection = (event, index) => {
+    console.log('saykat', index);
+    setAnchorEl(null);
+    switch(index){
+      case 0:
+        handleApprovalModalOpen();
+        break;
+      case 1:
+        handleRejectionModalOpen();
+        break;
+      default:
+        handlePartiallyRejectionModalOpen();
+        break;
+    }
+
+  };
+
+
 
   return (
     <div>
@@ -53,8 +85,8 @@ export default function ActionMenu () {
           },
         }}
       >
-        {options.map((option) => (
-          <MenuItem key={option} selected={option} onClick={handleClose}>
+        {options.map((option, index) => (
+          <MenuItem key={option} selected={index === option} onClick={(event) => handleMenuSelection(event, index)}>
             {option === 'Accept' && <DoneIcon color='success' />}
             {option === 'Reject' && <ClearIcon color='error' />}
             {option === 'Partially Reject' && <WarningAmberIcon color='warning' />}
@@ -62,6 +94,9 @@ export default function ActionMenu () {
           </MenuItem>
         ))}
       </Menu>
+      {approvalModalOpen ? <ApprovalModal/> : ''}
+      {rejectionModalOpen ? <RejectModal/> : ''}
+      {partiallyRejectionModalOpen ? <PartiallyRejectModal/> : ''}      
     </div>
   );
 }
