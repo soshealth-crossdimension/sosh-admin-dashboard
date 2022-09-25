@@ -3,49 +3,55 @@ import { Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import ActionMenu from '../actions/Action';
 import Status from '../status/Status';
+import Download from '../downloads/Download';
 import { getServiceProviderPendingApproval } from '../../api/data-management/serviceProvider';
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 230 },
+  { field: 'id', headerName: 'ID', width: 250 },
   {
     field: 'fullName',
     headerName: 'Full name',
     description: 'This column has a value getter and is not sortable.',
     sortable: false,
-    width: 160,
+    width: 250,
     valueGetter: (params) =>
       `${params.row.firstName || ''} ${params.row.middleName || ''} ${params.row.lastName || ''}`,
   },
   {
     field: 'gender',
     headerName: 'Sex',
-    width: 150,
+    width: 200,
     editable: false,
   },
   {
     field: 'serviceExperience',
     headerName: 'Experience',
-    width: 110,
+    width: 190,
     editable: false,
   },
   {
     field: 'registrationStatus',
     headerName: 'Status',
-    width: 160,
+    width: 250,
     renderCell: (params) => {
       return <Status statusValue={params.row.registrationStatus} />;
     }
   },
   {
-    field: 'actions',
-    headerName: 'Actions',
-    width: 120,
+    field: 'documents',
+    headerName: 'Documents',
+    width: 200,
     renderCell: (params) => {
-      return <ActionMenu serviceProviderId={params.row.id}/>
+      return <Download serviceProviderId={params.row.id}/>
     }
   },
   {
-    field: 'documents'
+    field: 'actions',
+    headerName: 'Actions',
+    width: 90,
+    renderCell: (params) => {
+      return <ActionMenu serviceProviderId={params.row.id}/>
+    }
   }
 ];
 
@@ -68,7 +74,7 @@ export default function DashboardView() {
       {!isPending && <DataGrid
         rows={data}
         columns={columns}
-        pageSize={10}
+        pageSize={20}
         rowsPerPageOptions={[5]}
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
