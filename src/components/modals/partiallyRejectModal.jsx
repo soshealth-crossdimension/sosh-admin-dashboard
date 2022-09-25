@@ -21,12 +21,7 @@ const modalStyles = {
     }
 };
 
-export default function PartiallyRejectModal() {
-    const [partiallyRejectModalOpen, setPartiallyRejectModalOpen] = React.useState(true);
-    const handlePartiallyRejectModalClose = (event, reason) => {
-        if(reason !== 'backdropClick')
-            setPartiallyRejectModalOpen(false);
-    }
+export default function PartiallyRejectModal({partially, handleClosePartialModal}) {
     
     const [comment, setComment] = React.useState('');
     const handleCommentChange = (event) => {
@@ -51,8 +46,8 @@ export default function PartiallyRejectModal() {
 
   return (
     <Modal
-        open={partiallyRejectModalOpen}
-        onClose={handlePartiallyRejectModalClose}
+        open={partially}
+        onClose={handleClosePartialModal}
       >
         <Box sx={modalStyles.inputFields}>
             <h3 style={modalStyles.heading}>Paritally Reject Form</h3>
@@ -68,7 +63,7 @@ export default function PartiallyRejectModal() {
             {error ? <p style={{color: 'red'}}>{errorMessage}</p> : ''}
             <Stack direction="row" spacing={17} style={{marginTop: '20px'}}>
                 <Button variant="contained" color="warning" onClick={handleSubmit}>Partially Reject</Button>
-                <Button variant="contained" onClick={handlePartiallyRejectModalClose} >Cancel</Button>
+                <Button variant="contained" onClick={handleClosePartialModal} >Cancel</Button>
             </Stack>
         </Box>
       </Modal>

@@ -1,42 +1,12 @@
-import * as React from 'react';
-import {Box} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import ActionMenu from '../actions/Action';
 import Status from '../status/Status';
+import { getServiceProviderPendingApproval } from '../../api/data-management/serviceProvider';
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  {
-    field: 'firstName',
-    headerName: 'First name',
-    width: 150,
-    editable: false,
-  },
-  {
-    field: 'middleName',
-    headerName: 'Middle name',
-    width: 150,
-    editable: false,
-  },
-  {
-    field: 'lastName',
-    headerName: 'Last name',
-    width: 150,
-    editable: false,
-  },
-  {
-    field: 'gender',
-    headerName: 'Sex',
-    width: 150,
-    editable: false,
-  },
-  {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 110,
-    editable: false,
-  },
+  { field: 'id', headerName: 'ID', width: 230 },
   {
     field: 'fullName',
     headerName: 'Full name',
@@ -47,45 +17,62 @@ const columns = [
       `${params.row.firstName || ''} ${params.row.middleName || ''} ${params.row.lastName || ''}`,
   },
   {
-      field: 'registrationStatus',
-      headerName: 'Status',
-      width: 160,
-      renderCell: (params) => {
-        return <Status statusValue={params.row.status} />;
-      }
+    field: 'gender',
+    headerName: 'Sex',
+    width: 150,
+    editable: false,
   },
   {
-      field: 'actions',
-      headerName: 'Actions',
-      width: 120,
-      renderCell: () => {
-        return <ActionMenu />
-      }
+    field: 'serviceExperience',
+    headerName: 'Experience',
+    width: 110,
+    editable: false,
+  },
+  {
+    field: 'registrationStatus',
+    headerName: 'Status',
+    width: 160,
+    renderCell: (params) => {
+      return <Status statusValue={params.row.registrationStatus} />;
+    }
+  },
+  {
+    field: 'actions',
+    headerName: 'Actions',
+    width: 120,
+    renderCell: (params) => {
+      return <ActionMenu serviceProviderId={params.row.id}/>
+    }
+  },
+  {
+    field: 'documents'
   }
 ];
 
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35, status: 'PENDING' },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42, status: 'ACCEPTED' },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45, status: 'PENDING' },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16, status: 'REJECTED' },
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35, status: 'REJECTED' },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42, status: 'REJECTED' },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45, status: 'ACCEPTED' },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16, status: 'PENDING' }
-];
+
 
 export default function DashboardView() {
+  const [data, setData] = useState([]);
+  const [isPending, setIsPending] = useState(true);
+  useEffect(() => {
+    const fetchData = async() => {
+      const res = await getServiceProviderPendingApproval()
+      setData(res);
+      setIsPending(false);
+      }
+      fetchData();
+ }, []);
+
   return (
-    <Box sx={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
+    <Box sx={{ height: 700, width: '100%' }}>
+      {!isPending && <DataGrid
+        rows={data}
         columns={columns}
-        pageSize={5}
+        pageSize={10}
         rowsPerPageOptions={[5]}
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
-      />
+      />}
     </Box>
   );
 }

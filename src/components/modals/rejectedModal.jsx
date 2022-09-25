@@ -21,13 +21,7 @@ const modalStyles = {
     }
 };
 
-export default function RejectModal() {
-    const [rejectModalOpen, setRejectModalOpen] = React.useState(true);
-    const handleRejectModalClose = (event, reason) => {
-        if(reason !== 'backdropClick')
-            setRejectModalOpen(false);
-    }
-
+export default function RejectModal({rejected, handleCloseRejectModal}) {
     const [comment, setComment] = React.useState('');
     const handleCommentChange = (event) => {
         setComment(event.target.value);
@@ -51,8 +45,8 @@ export default function RejectModal() {
 
   return (
     <Modal
-        open={rejectModalOpen}
-        onClose={handleRejectModalClose}
+        open={rejected}
+        onClose={handleCloseRejectModal}
       >
         <Box sx={modalStyles.inputFields}>
             <h3 style={modalStyles.heading}>Rejection Form</h3>
@@ -68,7 +62,7 @@ export default function RejectModal() {
             {error ? <p style={{color: 'red'}}>{errorMessage}</p> : ''}
             <Stack direction="row" spacing={30} style={{marginTop: '20px'}}>
                 <Button variant="contained" color="error" onClick={handleSubmit}>Reject</Button>
-                <Button variant="contained" onClick={handleRejectModalClose} >Cancel</Button>
+                <Button variant="contained" onClick={handleCloseRejectModal} >Cancel</Button>
             </Stack>
         </Box>
       </Modal>

@@ -19,7 +19,7 @@ const options = [
 const ITEM_HEIGHT = 48;
 
 
-export default function ActionMenu () {
+export default function ActionMenu ({serviceProviderId}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -40,7 +40,7 @@ export default function ActionMenu () {
   const handlePartiallyRejectionModalOpen = () => setPartiallyRejectionModalOpen(true);
   
   const handleMenuSelection = (event, index) => {
-    console.log('saykat', index);
+    
     setAnchorEl(null);
     switch(index){
       case 0:
@@ -94,9 +94,9 @@ export default function ActionMenu () {
           </MenuItem>
         ))}
       </Menu>
-      {approvalModalOpen ? <ApprovalModal/> : ''}
-      {rejectionModalOpen ? <RejectModal/> : ''}
-      {partiallyRejectionModalOpen ? <PartiallyRejectModal/> : ''}      
+      {approvalModalOpen ? <ApprovalModal approved={approvalModalOpen} handleCloseApproveModal={() => setApprovalModalOpen(false)} serviceProviderId={serviceProviderId}/> : ''}
+      {rejectionModalOpen ? <RejectModal rejected={rejectionModalOpen} handleCloseRejectModal={() => setRejectionModalOpen(false)}/> : ''}
+      {partiallyRejectionModalOpen ? <PartiallyRejectModal partially={partiallyRejectionModalOpen} handleClosePartialModal={() => setPartiallyRejectionModalOpen(false)}/> : ''}      
     </div>
   );
 }
