@@ -84,7 +84,7 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
     }
 
     const apiCalls = async (payload, patchElemet) => {
-        await createPriceForIndividual(payload);
+        //await createPriceForIndividual(payload);
         await updateServiceProviderGrade(patchElemet, serviceProviderId,);
     }
 

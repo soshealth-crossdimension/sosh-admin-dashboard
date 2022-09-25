@@ -1,5 +1,5 @@
 import axios from '../axios';
-import { GET_SERVICE_PROVIDER_ALL } from "../URI_CONFIG";
+import { GET_SERVICE_PROVIDER_ALL, UPDATE_SERVICE_PROVIDER_DETAILS } from "../URI_CONFIG";
 
 export const getServiceProviderPendingApproval = async () => {
     const response = await axios.get(GET_SERVICE_PROVIDER_ALL, {
@@ -11,7 +11,7 @@ export const getServiceProviderPendingApproval = async () => {
 };
 
 export const updateServiceProviderGrade = async (patchElemet, serviceProviderId) => {
-    const response = await axios.patch(GET_SERVICE_PROVIDER_ALL, patchElemet, {
+    const response = await axios.post(UPDATE_SERVICE_PROVIDER_DETAILS, patchElemet, {
         params: {
             serviceProviderId
         },
