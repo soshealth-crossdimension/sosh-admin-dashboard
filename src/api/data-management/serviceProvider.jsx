@@ -16,8 +16,7 @@ export const updateServiceProviderGrade = async (patchElemet, serviceProviderId)
             serviceProviderId
         },
         headers: {
-            'Content-Type': 'application/json-patch+json',
-            'Accept-Language': ' application/json-patch+json'
+            'Content-Type': 'application/json-patch+json'
         }
     });
     return response.data;
