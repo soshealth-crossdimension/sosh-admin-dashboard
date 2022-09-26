@@ -1,10 +1,10 @@
 import axios from '../axios';
-import { GET_SERVICE_PROVIDER_ALL } from "../URI_CONFIG";
+import { DOWNLOAD_FILES } from "../URI_CONFIG";
 
-export const getServiceProviderPendingApproval = async () => {
-    const response = await axios.get(GET_SERVICE_PROVIDER_ALL, {
+export const getDownloadedFiles = async (serviceProviderId) => {
+    const response = await axios.get(DOWNLOAD_FILES, {
         params: {
-            filters: 'registrationStatus==PENDING'
+            serviceProviderId
         }
     });
     return response.data;
