@@ -27,13 +27,13 @@ const columns = [
   {
     field: 'serviceExperience',
     headerName: 'Experience',
-    width: 190,
+    width: 160,
     editable: false,
   },
   {
     field: 'registrationStatus',
     headerName: 'Status',
-    width: 250,
+    width: 170,
     renderCell: (params) => {
       return <Status statusValue={params.row.registrationStatus} />;
     }
@@ -41,7 +41,7 @@ const columns = [
   {
     field: 'documents',
     headerName: 'Documents',
-    width: 200,
+    width: 100,
     renderCell: (params) => {
       return <Download serviceProviderId={params.row.id}/>
     }
