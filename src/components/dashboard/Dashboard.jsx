@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import ActionMenu from '../actions/Action';
 import Status from '../status/Status';
 import Download from '../downloads/Download';
+import CircularColor from '../loader/Loading';
 import { getServiceProviderPendingApproval } from '../../api/data-management/serviceProvider';
 
 const columns = [
@@ -70,7 +71,11 @@ export default function DashboardView() {
  }, []);
 
   return (
-    <Box sx={{ height: 700, width: '100%' }}>
+    <>
+     {isPending ? <Container>
+       <CircularColor/>
+      </Container> :
+      <Box sx={{ height: 700, width: '100%' }}>
       {!isPending && <DataGrid
         rows={data}
         columns={columns}
@@ -79,6 +84,8 @@ export default function DashboardView() {
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
       />}
-    </Box>
+    </Box>}
+    </>
+    
   );
 }
