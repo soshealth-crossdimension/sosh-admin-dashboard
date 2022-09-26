@@ -5,10 +5,10 @@ export default function SosAppBar() {
         <AppBar position='static'>
             <Toolbar style={{backgroundColor: '#081b30de'}}>
                 <IconButton size='large' edge='start' color='inherit' aria-label='logo'>
-                    <Avatar alt="SOS Health" src="../../assets/icon.jpeg" />
+                    <Avatar alt="SOS Health" src="../../assets/icon.svg" />
                 </IconButton>
                 <Typography variant='h6' component='div'>
-                    SOS HealthCare Guidance
+                    SOS HealthCare Guidance Admin Dashboard.
                 </Typography>
             </Toolbar>
         </AppBar>
