@@ -102,8 +102,8 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
             );
         } else {
             setError(false);
-            const payload = preparePayloadForPrice();
-            // const patchElemet = preparePayloadForGradeUpdate();
+            //const payload = preparePayloadForPrice();
+            const patchElemet = preparePayloadForGradeUpdate();
             await apiCalls(patchElemet);
             handleCloseApproveModal();
 
