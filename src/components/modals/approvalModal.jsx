@@ -2,7 +2,6 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
-import { createPriceForIndividual } from '../../api/pricing/pricing';
 import { updateServiceProviderGrade } from '../../api/data-management/serviceProvider';
 
 
@@ -36,18 +35,18 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
     const [error, setError] = React.useState(false);
 
 
-    const preparePayloadForPrice = () => {
-        const payload = {
-            serviceProviderId,
-            customerPrice: {
-                unit: 'INR',
-                value: fee
-            },
-            deductionRate,
-            taxRate
-        };
-        return payload;
-    }
+    // const preparePayloadForPrice = () => {
+    //     const payload = {
+    //         serviceProviderId,
+    //         customerPrice: {
+    //             unit: 'INR',
+    //             value: fee
+    //         },
+    //         deductionRate,
+    //         taxRate
+    //     };
+    //     return payload;
+    // }
 
     const preparePayloadForGradeUpdate = () => {
         const payload = [{
