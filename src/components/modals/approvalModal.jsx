@@ -29,7 +29,7 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
 
     const [grade, setGrade] = React.useState('');
     const [fee, setFee] = React.useState('');
-    const [checked, setChecked] = React.useState(false);
+    const [checked, setChecked] = React.useState(true);
     const [deductionRate, setDeductionRate] = React.useState(0);
     const [taxRate, setTaxRate] = React.useState(0);
     const [errorMessage, setErrorMessage] = React.useState("");
@@ -83,8 +83,8 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
         }
     }
 
-    const apiCalls = async (payload, patchElemet) => {
-        await createPriceForIndividual(payload);
+    const apiCalls = async (patchElemet) => {
+        // await createPriceForIndividual(payload);
         await updateServiceProviderGrade(patchElemet, serviceProviderId,);
     }
 
@@ -103,8 +103,8 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
         } else {
             setError(false);
             const payload = preparePayloadForPrice();
-            const patchElemet = preparePayloadForGradeUpdate();
-            await apiCalls(payload, patchElemet);
+            // const patchElemet = preparePayloadForGradeUpdate();
+            await apiCalls(patchElemet);
             handleCloseApproveModal();
 
         }
