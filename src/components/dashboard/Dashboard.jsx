@@ -6,7 +6,7 @@ import ActionMenu from '../actions/Action';
 import Status from '../status/Status';
 //import Download from '../downloads/Download';
 import CircularColor from '../loader/Loading';
-import { getServiceProviderPendingApproval, getServiceProviderApprovedApproval } from '../../api/data-management/serviceProvider';
+import { getServiceProviderPendingApproval } from '../../api/data-management/serviceProvider';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 250 },
