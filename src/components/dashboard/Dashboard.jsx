@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Container } from '@mui/material';
+import { useNavigate } from "react-router-dom";
+import { Box, Container, Button } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import ActionMenu from '../actions/Action';
 import Status from '../status/Status';
-import Download from '../downloads/Download';
+//import Download from '../downloads/Download';
 import CircularColor from '../loader/Loading';
-import { getServiceProviderPendingApproval } from '../../api/data-management/serviceProvider';
+import { getServiceProviderPendingApproval, getServiceProviderApprovedApproval } from '../../api/data-management/serviceProvider';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 250 },
@@ -31,6 +32,12 @@ const columns = [
     editable: false,
   },
   {
+    field: 'contact.email',
+    headerName: 'Phone Number',
+    width: 160,
+    editable: false,
+  },
+  {
     field: 'registrationStatus',
     headerName: 'Status',
     width: 170,
@@ -38,14 +45,14 @@ const columns = [
       return <Status statusValue={params.row.registrationStatus} />;
     }
   },
-  {
-    field: 'documents',
-    headerName: 'Documents',
-    width: 100,
-    renderCell: (params) => {
-      return <Download serviceProviderId={params.row.id}/>
-    }
-  },
+  // {
+  //   field: 'documents',
+  //   headerName: 'Documents',
+  //   width: 100,
+  //   renderCell: (params) => {
+  //     return <Download serviceProviderId={params.row.id}/>
+  //   }
+  // },
   {
     field: 'actions',
     headerName: 'Actions',
@@ -58,17 +65,22 @@ const columns = [
 
 
 
-export default function DashboardView() {
+export default function DashboardView({approvalBoard}) {
+  let navigate = useNavigate();
   const [data, setData] = useState([]);
   const [isPending, setIsPending] = useState(true);
   useEffect(() => {
     const fetchData = async() => {
-      const res = await getServiceProviderPendingApproval()
+      const res = await getServiceProviderPendingApproval(); 
       setData(res);
       setIsPending(false);
       }
       fetchData();
  }, []);
+
+ const handleAllDoctor = () => {
+   navigate('/doctors');
+ }
 
   return (
     <>
@@ -85,6 +97,7 @@ export default function DashboardView() {
         experimentalFeatures={{ newEditingApi: true }}
       />}
     </Box>}
+    {!isPending && <Button variant="contained" sx={{ marginLeft:"85rem" }} onClick={handleAllDoctor}>All Docotrs</Button>}
     </>
     
   );
