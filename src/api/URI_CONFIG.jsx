@@ -1,4 +1,5 @@
-export const BASE_URL = 'https://www.crossdimension.in';
+//export const BASE_URL = 'https://www.crossdimension.in';
+export const BASE_URL = 'https://www.soshealth.club';
 
 export const GET_SERVICE_PROVIDER_ALL= '/sosDataManagement/v1/serviceProvider';
 export const CREATE_PRICE_PROVIDER = '/sosPriceManagement/v1/pricing';
