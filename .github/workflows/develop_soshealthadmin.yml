@@ -6,7 +6,7 @@ name: Build and deploy Node.js app to Azure Web App - soshealthadmin
 on:
   push:
     branches:
-      - release/1.0
+      - develop
   workflow_dispatch:
 
 jobs:
