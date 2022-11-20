@@ -32,11 +32,13 @@ const columns = [
     editable: false,
   },
   {
-    field: 'contact.email',
+    field: 'contact.mobile',
     headerName: 'Phone Number',
     width: 160,
     editable: false,
-  },
+    valueGetter: (params) =>
+    `${params.row.contact.mobile || ''}`,
+},
   {
     field: 'registrationStatus',
     headerName: 'Status',
