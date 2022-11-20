@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - soshealthadmin
+name: Build and deploy Node.js app to Azure Web App - soshealthadmindashboard
 
 on:
   push:
@@ -56,7 +56,7 @@ jobs:
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
-          app-name: 'soshealthadmin'
+          app-name: 'soshealthadmindashboard'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9A70985A118648D98300598189284CB4 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_08F886C68C194B818F72510113301C47 }}
           package: release.zip
