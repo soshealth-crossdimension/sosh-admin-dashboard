@@ -10,7 +10,8 @@ export const getServiceProviderPendingApproval = async () => {
     return response.data;
 };
 
-export const updateServiceProviderGrade = async (patchElemet, serviceProviderId) => {
+export const updateServiceProvider = async (patchElemet, serviceProviderId) => {
+    console.log(patchElemet, 'update', serviceProviderId);
     const response = await axios.post(UPDATE_SERVICE_PROVIDER_DETAILS, patchElemet, {
         params: {
             serviceProviderId

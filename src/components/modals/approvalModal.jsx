@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
-import { updateServiceProviderGrade } from '../../api/data-management/serviceProvider';
+import { updateServiceProvider } from '../../api/data-management/serviceProvider';
 
 
 const modalStyles = {
@@ -33,20 +33,6 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
     const [taxRate, setTaxRate] = React.useState(0);
     const [errorMessage, setErrorMessage] = React.useState("");
     const [error, setError] = React.useState(false);
-
-
-    // const preparePayloadForPrice = () => {
-    //     const payload = {
-    //         serviceProviderId,
-    //         customerPrice: {
-    //             unit: 'INR',
-    //             value: fee
-    //         },
-    //         deductionRate,
-    //         taxRate
-    //     };
-    //     return payload;
-    // }
 
     const preparePayloadForGradeUpdate = () => {
         const payload = [{
@@ -83,8 +69,7 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
     }
 
     const apiCalls = async (patchElemet) => {
-        // await createPriceForIndividual(payload);
-        await updateServiceProviderGrade(patchElemet, serviceProviderId,);
+        await updateServiceProvider(patchElemet, serviceProviderId,);
     }
 
     const handleCheckChange = (event) => {
@@ -105,7 +90,6 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
             const patchElemet = preparePayloadForGradeUpdate();
             await apiCalls(patchElemet);
             handleCloseApproveModal();
-
         }
     }
 

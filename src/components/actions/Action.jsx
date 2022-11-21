@@ -95,8 +95,8 @@ export default function ActionMenu ({serviceProviderId}) {
         ))}
       </Menu>
       {approvalModalOpen ? <ApprovalModal approved={approvalModalOpen} handleCloseApproveModal={() => setApprovalModalOpen(false)} serviceProviderId={serviceProviderId}/> : ''}
-      {rejectionModalOpen ? <RejectModal rejected={rejectionModalOpen} handleCloseRejectModal={() => setRejectionModalOpen(false)}/> : ''}
-      {partiallyRejectionModalOpen ? <PartiallyRejectModal partially={partiallyRejectionModalOpen} handleClosePartialModal={() => setPartiallyRejectionModalOpen(false)}/> : ''}      
+      {rejectionModalOpen ? <RejectModal rejected={rejectionModalOpen} handleCloseRejectModal={() => setRejectionModalOpen(false)} serviceProviderId={serviceProviderId}/> : ''}
+      {partiallyRejectionModalOpen ? <PartiallyRejectModal partially={partiallyRejectionModalOpen} handleClosePartialModal={() => setPartiallyRejectionModalOpen(false)} serviceProviderId={serviceProviderId}/> : ''}      
     </div>
   );
 }

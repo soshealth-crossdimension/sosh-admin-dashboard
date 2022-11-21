@@ -2,6 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { Button, FormControl, Stack, TextField } from '@mui/material';
+import { updateServiceProvider } from '../../api/data-management/serviceProvider';
 
 const modalStyles = {
     inputFields: {
@@ -21,7 +22,7 @@ const modalStyles = {
     }
 };
 
-export default function PartiallyRejectModal({partially, handleClosePartialModal}) {
+export default function PartiallyRejectModal({partially, handleClosePartialModal, serviceProviderId}) {
     
     const [comment, setComment] = React.useState('');
     const handleCommentChange = (event) => {
@@ -31,7 +32,21 @@ export default function PartiallyRejectModal({partially, handleClosePartialModal
     const [errorMessage, setErrorMessage] = React.useState("");
     const [error, setError] = React.useState(false);
 
-    const handleSubmit = (e) => {
+    const preparePayloadForPartiallyRejection = () => {
+        const payload = [{
+            op: 'replace',
+            path: '/registrationStatus',
+            value: 'REAPPLY'
+        }
+        ]
+        return payload;
+    }
+
+    const apiCalls = async (patchElemet) => {
+        await updateServiceProvider(patchElemet, serviceProviderId,);
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (comment.length <= 0) {
             setError(true);
@@ -39,8 +54,11 @@ export default function PartiallyRejectModal({partially, handleClosePartialModal
               "Please put your comments"
             );
         } else {
+            const patchElemet = preparePayloadForPartiallyRejection();
+            await apiCalls(patchElemet);
             setError(false);
             console.log('Comment: ', comment);
+            handleClosePartialModal();
         }
     }
 
