@@ -1,9 +1,8 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
-import { createPriceForIndividual } from '../../api/pricing/pricing';
-import { updateServiceProviderGrade } from '../../api/data-management/serviceProvider';
+import { updateServiceProvider } from '../../api/data-management/serviceProvider';
 
 
 const modalStyles = {
@@ -24,43 +23,42 @@ const modalStyles = {
     }
 };
 
-export default function ApprovalModal({ approved, handleCloseApproveModal, serviceProviderId }) {
+export default function ApprovalModal({
+    approved,
+    handleCloseApproveModal,
+    serviceProviderId,
+    refreshDataAfterAction,
+    isUpdateView,
+    preApprovedGrade
+}) {
 
 
     const [grade, setGrade] = React.useState('');
     const [fee, setFee] = React.useState('');
-    const [checked, setChecked] = React.useState(false);
+    const [checked, setChecked] = React.useState(true);
     const [deductionRate, setDeductionRate] = React.useState(0);
     const [taxRate, setTaxRate] = React.useState(0);
     const [errorMessage, setErrorMessage] = React.useState("");
     const [error, setError] = React.useState(false);
 
-
-    const preparePayloadForPrice = () => {
-        const payload = {
-            serviceProviderId,
-            customerPrice: {
-                unit: 'INR',
-                value: fee
-            },
-            deductionRate,
-            taxRate
-        };
-        return payload;
-    }
+    useEffect(() => {
+        setGrade(preApprovedGrade);
+    },[])
 
     const preparePayloadForGradeUpdate = () => {
         const payload = [{
             op: 'replace',
             path: '/grade',
             value: grade
-        },
-        {
-            op: 'replace',
-            path: '/registrationStatus',
-            value: 'APPROVED'
         }
         ]
+        if (!isUpdateView) {
+            payload.push({
+                op: 'replace',
+                path: '/registrationStatus',
+                value: 'APPROVED'
+            })
+        }
         return payload;
     }
 
@@ -83,9 +81,8 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
         }
     }
 
-    const apiCalls = async (payload, patchElemet) => {
-        await createPriceForIndividual(payload);
-        await updateServiceProviderGrade(patchElemet, serviceProviderId,);
+    const apiCalls = async (patchElemet) => {
+        await updateServiceProvider(patchElemet, serviceProviderId,);
     }
 
     const handleCheckChange = (event) => {
@@ -95,20 +92,23 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (grade.length <= 0 || (!checked && fee.length <= 0)) {
+        if (!checked && fee.length <= 0) {
             setError(true);
             setErrorMessage(
                 "Please fill all the fields with proper value"
             );
         } else {
             setError(false);
-            const payload = preparePayloadForPrice();
+            //const payload = preparePayloadForPrice();
             const patchElemet = preparePayloadForGradeUpdate();
-            await apiCalls(payload, patchElemet);
+            await apiCalls(patchElemet);
             handleCloseApproveModal();
-
+            refreshDataAfterAction();  
         }
     }
+
+    const title = isUpdateView ? 'Update' : 'Approval';
+    const primaryButtonTitle = isUpdateView ? 'Update' : 'Approve';
 
     return (
         <Modal
@@ -116,8 +116,8 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
             onClose={handleCloseApproveModal}
         >
             <Box sx={modalStyles.inputFields}>
-                <h3 style={modalStyles.heading}>Approval Form</h3>
-                <FormControl fullWidth required style={{ marginBottom: '10px' }}>
+                <h3 style={modalStyles.heading}>{title} Form</h3>
+                <FormControl fullWidth style={{ marginBottom: '10px' }}>
                     <InputLabel>Grade</InputLabel>
                     <Select
                         labelId="grade-label"
@@ -166,10 +166,12 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
                         onChange={handleTaxRateChange}
                     />
                 </FormControl>}
-                <FormControlLabel control={<Checkbox checked={checked} onChange={handleCheckChange} />} label="Fees as per Department" fullWidth />
+                {/* <FormControlLabel control={<Checkbox checked={checked} onChange={handleCheckChange} />} label="Fees as per Department" fullWidth /> */}
+                <FormControlLabel control={<Checkbox checked={true} />} label="Fees as per Department" fullWidth />
+
                 {error ? <p style={{ color: 'red' }}>{errorMessage}</p> : ''}
                 <Stack direction="row" spacing={30} style={{ marginTop: '20px' }}>
-                    <Button variant="contained" color="success" onClick={handleSubmit}>Approve</Button>
+                    <Button variant="contained" color="success" onClick={handleSubmit}>{primaryButtonTitle}</Button>
                     <Button variant="contained" onClick={handleCloseApproveModal} >Cancel</Button>
                 </Stack>
             </Box>

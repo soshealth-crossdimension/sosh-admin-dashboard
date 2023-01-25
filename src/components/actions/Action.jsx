@@ -19,7 +19,7 @@ const options = [
 const ITEM_HEIGHT = 48;
 
 
-export default function ActionMenu ({serviceProviderId}) {
+export default function ActionMenu ({serviceProviderId, onClick, isDisableAction, isUpdateView, preApprovedGrade}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -53,10 +53,19 @@ export default function ActionMenu ({serviceProviderId}) {
         handlePartiallyRejectionModalOpen();
         break;
     }
-
   };
 
+  const updateGradeMenu = <MenuItem key={'update'}  onClick={(event) => handleMenuSelection(event, 0)}>Update Grade</MenuItem>
 
+  const defaultMenuItems = options.map((option, index) => (
+    <MenuItem key={option} selected={index === option} onClick={(event) => handleMenuSelection(event, index)}>
+      {option === 'Accept' && <DoneIcon color='success' />}
+      {option === 'Reject' && <ClearIcon color='error' />}
+      {option === 'Partially Reject' && <WarningAmberIcon color='warning' />}
+      {option}
+    </MenuItem>
+  ))
+  const menuOptions =  isUpdateView ? updateGradeMenu : defaultMenuItems;
 
   return (
     <div>
@@ -67,6 +76,7 @@ export default function ActionMenu ({serviceProviderId}) {
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleClick}
+        disabled={isDisableAction}
       >
         <MoreVertIcon />
       </IconButton>
@@ -85,18 +95,11 @@ export default function ActionMenu ({serviceProviderId}) {
           },
         }}
       >
-        {options.map((option, index) => (
-          <MenuItem key={option} selected={index === option} onClick={(event) => handleMenuSelection(event, index)}>
-            {option === 'Accept' && <DoneIcon color='success' />}
-            {option === 'Reject' && <ClearIcon color='error' />}
-            {option === 'Partially Reject' && <WarningAmberIcon color='warning' />}
-            {option}
-          </MenuItem>
-        ))}
+       {menuOptions}
       </Menu>
-      {approvalModalOpen ? <ApprovalModal approved={approvalModalOpen} handleCloseApproveModal={() => setApprovalModalOpen(false)} serviceProviderId={serviceProviderId}/> : ''}
-      {rejectionModalOpen ? <RejectModal rejected={rejectionModalOpen} handleCloseRejectModal={() => setRejectionModalOpen(false)}/> : ''}
-      {partiallyRejectionModalOpen ? <PartiallyRejectModal partially={partiallyRejectionModalOpen} handleClosePartialModal={() => setPartiallyRejectionModalOpen(false)}/> : ''}      
+      {approvalModalOpen && <ApprovalModal approved={approvalModalOpen} handleCloseApproveModal={() => setApprovalModalOpen(false)} serviceProviderId={serviceProviderId} refreshDataAfterAction={onClick} isUpdateView={isUpdateView} preApprovedGrade={preApprovedGrade}/>}
+      {rejectionModalOpen && <RejectModal rejected={rejectionModalOpen} handleCloseRejectModal={() => setRejectionModalOpen(false)} serviceProviderId={serviceProviderId} refreshDataAfterAction={onClick}/>}
+      {partiallyRejectionModalOpen && <PartiallyRejectModal partially={partiallyRejectionModalOpen} handleClosePartialModal={() => setPartiallyRejectionModalOpen(false)} serviceProviderId={serviceProviderId} refreshDataAfterAction={onClick}/>}      
     </div>
   );
 }
