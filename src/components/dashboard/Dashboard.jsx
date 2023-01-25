@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { Box, Container } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { DataGrid } from '@mui/x-data-grid';
@@ -12,7 +12,7 @@ import {enableActionStatuses} from '../../config/config';
 import { fetchServiceProviderListAction } from '../../redux/action/serviceProvider';
 
 export default function DashboardView({approvalBoard}) {
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [data, setData] = useState([]);

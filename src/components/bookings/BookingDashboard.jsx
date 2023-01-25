@@ -11,7 +11,7 @@ import {dateFormat} from '../../utils/dateFormat'
 import { getAllBookingDetails } from '../../api/booking-management/bookingMgmt';
 
 export default function BookingDashboardView() {
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
   const [data, setData] = useState([]);
   const [isPending, setIsPending] = useState(true);
   
@@ -25,9 +25,9 @@ export default function BookingDashboardView() {
       fetchData();
  }, []);
 
- const handleAction = () => {
-  fetchData()
- }
+//  const handleAction = () => {
+//   fetchData()
+//  }
 
  const columns = [
   { field: 'id', headerName: 'ID', width: 150 },

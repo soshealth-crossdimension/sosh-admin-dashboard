@@ -29,7 +29,7 @@ export default function PartiallyRejectModal({partially, handleClosePartialModal
         setComment(event.target.value);
     }
 
-    const [errorMessage, setErrorMessage] = React.useState("");
+    // const [errorMessage, setErrorMessage] = React.useState("");
     const [error, setError] = React.useState(false);
 
     const preparePayloadForPartiallyRejection = () => {
