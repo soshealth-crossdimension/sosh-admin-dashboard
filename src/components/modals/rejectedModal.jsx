@@ -28,7 +28,7 @@ export default function RejectModal({rejected, handleCloseRejectModal, servicePr
         setComment(event.target.value);
     }
 
-    // const [errorMessage, setErrorMessage] = React.useState("");
+    const [errorMessage, setErrorMessage] = React.useState("");
     const [error, setError] = React.useState(false);
 
     const preparePayloadForRejection = () => {
@@ -47,19 +47,19 @@ export default function RejectModal({rejected, handleCloseRejectModal, servicePr
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // if (comment.length <= 0) {
-        //     setError(true);
-        //     setErrorMessage(
-        //       "Please put your comments"
-        //     );
-        // } else {
+        if (comment.length <= 0) {
+            setError(true);
+            setErrorMessage(
+              "Please put your comments"
+            );
+        } else {
             const patchElemet = preparePayloadForRejection();
             await apiCalls(patchElemet);
             setError(false);
             console.log('Comment: ', comment);
             handleCloseRejectModal();
             refreshDataAfterAction();
-        // }
+        }
     }
 
   return (
