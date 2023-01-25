@@ -1,6 +1,7 @@
 {
-  "name": "sosh-admin-dashboard",
-  "version": "1.0.0",
+  "homepage": "https://www.soshealth.in/",
+  "name": "SOSHealthCare",
+  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -16,8 +17,11 @@
     "prop-types": "15.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
+    "redux": "^4.2.0",
+    "redux-thunk": "^2.4.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -43,5 +47,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
   }
 }

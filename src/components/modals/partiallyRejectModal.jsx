@@ -22,7 +22,7 @@ const modalStyles = {
     }
 };
 
-export default function PartiallyRejectModal({partially, handleClosePartialModal, serviceProviderId}) {
+export default function PartiallyRejectModal({partially, handleClosePartialModal, serviceProviderId, refreshDataAfterAction}) {
     
     const [comment, setComment] = React.useState('');
     const handleCommentChange = (event) => {
@@ -48,18 +48,19 @@ export default function PartiallyRejectModal({partially, handleClosePartialModal
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (comment.length <= 0) {
-            setError(true);
-            setErrorMessage(
-              "Please put your comments"
-            );
-        } else {
+        // if (comment.length <= 0) {
+        //     setError(true);
+        //     setErrorMessage(
+        //       "Please put your comments"
+        //     );
+        // } else {
             const patchElemet = preparePayloadForPartiallyRejection();
             await apiCalls(patchElemet);
             setError(false);
             console.log('Comment: ', comment);
             handleClosePartialModal();
-        }
+            refreshDataAfterAction();
+        // }
     }
 
   return (
@@ -69,7 +70,7 @@ export default function PartiallyRejectModal({partially, handleClosePartialModal
       >
         <Box sx={modalStyles.inputFields}>
             <h3 style={modalStyles.heading}>Paritally Reject Form</h3>
-            <FormControl fullWidth required>
+            <FormControl fullWidth>
                 <TextField
                     id="comment"
                     label="Partially Rejection Comment"

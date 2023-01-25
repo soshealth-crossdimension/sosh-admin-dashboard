@@ -5,7 +5,7 @@ export default function Status ({statusValue}) {
     const getChipColor = () =>{
         if (statusValue.toLowerCase() === 'pending') 
             return 'info';
-        else if (statusValue.toLowerCase() === 'accepted')
+        else if (statusValue.toLowerCase() === 'approved' || statusValue.toLowerCase() === 'completed')
             return 'success';
         else 
             return 'error';  

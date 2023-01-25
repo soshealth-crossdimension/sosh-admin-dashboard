@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
@@ -23,7 +23,14 @@ const modalStyles = {
     }
 };
 
-export default function ApprovalModal({ approved, handleCloseApproveModal, serviceProviderId }) {
+export default function ApprovalModal({
+    approved,
+    handleCloseApproveModal,
+    serviceProviderId,
+    refreshDataAfterAction,
+    isUpdateView,
+    preApprovedGrade
+}) {
 
 
     const [grade, setGrade] = React.useState('');
@@ -34,18 +41,24 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
     const [errorMessage, setErrorMessage] = React.useState("");
     const [error, setError] = React.useState(false);
 
+    useEffect(() => {
+        setGrade(preApprovedGrade);
+    },[])
+
     const preparePayloadForGradeUpdate = () => {
         const payload = [{
             op: 'replace',
             path: '/grade',
             value: grade
-        },
-        {
-            op: 'replace',
-            path: '/registrationStatus',
-            value: 'APPROVED'
         }
         ]
+        if (!isUpdateView) {
+            payload.push({
+                op: 'replace',
+                path: '/registrationStatus',
+                value: 'APPROVED'
+            })
+        }
         return payload;
     }
 
@@ -79,7 +92,7 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (grade.length <= 0 || (!checked && fee.length <= 0)) {
+        if (!checked && fee.length <= 0) {
             setError(true);
             setErrorMessage(
                 "Please fill all the fields with proper value"
@@ -90,8 +103,12 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
             const patchElemet = preparePayloadForGradeUpdate();
             await apiCalls(patchElemet);
             handleCloseApproveModal();
+            refreshDataAfterAction();  
         }
     }
+
+    const title = isUpdateView ? 'Update' : 'Approval';
+    const primaryButtonTitle = isUpdateView ? 'Update' : 'Approve';
 
     return (
         <Modal
@@ -99,8 +116,8 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
             onClose={handleCloseApproveModal}
         >
             <Box sx={modalStyles.inputFields}>
-                <h3 style={modalStyles.heading}>Approval Form</h3>
-                <FormControl fullWidth required style={{ marginBottom: '10px' }}>
+                <h3 style={modalStyles.heading}>{title} Form</h3>
+                <FormControl fullWidth style={{ marginBottom: '10px' }}>
                     <InputLabel>Grade</InputLabel>
                     <Select
                         labelId="grade-label"
@@ -149,10 +166,12 @@ export default function ApprovalModal({ approved, handleCloseApproveModal, servi
                         onChange={handleTaxRateChange}
                     />
                 </FormControl>}
-                <FormControlLabel control={<Checkbox checked={checked} onChange={handleCheckChange} />} label="Fees as per Department" fullWidth />
+                {/* <FormControlLabel control={<Checkbox checked={checked} onChange={handleCheckChange} />} label="Fees as per Department" fullWidth /> */}
+                <FormControlLabel control={<Checkbox checked={true} />} label="Fees as per Department" fullWidth />
+
                 {error ? <p style={{ color: 'red' }}>{errorMessage}</p> : ''}
                 <Stack direction="row" spacing={30} style={{ marginTop: '20px' }}>
-                    <Button variant="contained" color="success" onClick={handleSubmit}>Approve</Button>
+                    <Button variant="contained" color="success" onClick={handleSubmit}>{primaryButtonTitle}</Button>
                     <Button variant="contained" onClick={handleCloseApproveModal} >Cancel</Button>
                 </Stack>
             </Box>

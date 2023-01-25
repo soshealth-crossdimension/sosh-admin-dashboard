@@ -1,14 +1,47 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { Box, Container, Button } from '@mui/material';
+import { Box, Container } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import { DataGrid } from '@mui/x-data-grid';
 import ActionMenu from '../actions/Action';
 import Status from '../status/Status';
 //import Download from '../downloads/Download';
 import CircularColor from '../loader/Loading';
-import { getServiceProviderPendingApproval } from '../../api/data-management/serviceProvider';
+import {enableActionStatuses} from '../../config/config';
+import { fetchServiceProviderListAction } from '../../redux/action/serviceProvider';
 
-const columns = [
+export default function DashboardView({approvalBoard}) {
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [data, setData] = useState([]);
+  const [isPending, setIsPending] = useState(true);
+
+  const { serviceProviderList } = useSelector(state => state.serviceProvider)
+  
+  const fetchData = async () => {
+    dispatch(fetchServiceProviderListAction())
+  }
+
+  useEffect(() => {
+      fetchData();
+ }, []);
+
+ useEffect(() => {
+  setData(serviceProviderList);
+  setIsPending(false);
+ }, [serviceProviderList])
+
+ const handleAction = () => {
+  fetchData()
+ }
+
+//  const handleAllDoctor = () => {
+//    navigate('/doctors');
+//  }
+
+ const columns = [
   { field: 'id', headerName: 'ID', width: 250 },
   {
     field: 'fullName',
@@ -60,32 +93,26 @@ const columns = [
     headerName: 'Actions',
     width: 90,
     renderCell: (params) => {
-      return <ActionMenu serviceProviderId={params.row.id}/>
+      const isDisableAction = !enableActionStatuses.includes(params.row.registrationStatus);
+      console.log(params, 'params-------------')
+      return <ActionMenu
+      serviceProviderId={params.row.id}
+      onClick={handleAction}
+      isDisableAction={isDisableAction}
+      isUpdateView={params.row.registrationStatus === 'APPROVED'}
+      preApprovedGrade={params.row.grade}
+      />
     }
   }
 ];
 
-
-
-export default function DashboardView({approvalBoard}) {
-  let navigate = useNavigate();
-  const [data, setData] = useState([]);
-  const [isPending, setIsPending] = useState(true);
-  useEffect(() => {
-    const fetchData = async() => {
-      const res = await getServiceProviderPendingApproval(); 
-      setData(res);
-      setIsPending(false);
-      }
-      fetchData();
- }, []);
-
- const handleAllDoctor = () => {
-   navigate('/doctors');
- }
-
   return (
     <>
+      <div style={{ padding: "30px"}}>
+     <Typography variant="h4" gutterBottom>
+       All Service Providers
+      </Typography>
+      </div>
      {isPending ? <Container>
        <CircularColor/>
       </Container> :
@@ -99,7 +126,7 @@ export default function DashboardView({approvalBoard}) {
         experimentalFeatures={{ newEditingApi: true }}
       />}
     </Box>}
-    {!isPending && <Button variant="contained" sx={{ marginLeft:"85rem" }} onClick={handleAllDoctor}>All Docotrs</Button>}
+    {/* {!isPending && <Button variant="contained" sx={{ marginLeft:"85rem" }} onClick={handleAllDoctor}>All Docotrs</Button>} */}
     </>
     
   );

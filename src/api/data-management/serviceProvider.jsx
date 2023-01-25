@@ -3,9 +3,9 @@ import { GET_SERVICE_PROVIDER_ALL, UPDATE_SERVICE_PROVIDER_DETAILS } from "../UR
 
 export const getServiceProviderPendingApproval = async () => {
     const response = await axios.get(GET_SERVICE_PROVIDER_ALL, {
-        params: {
-            filters: 'registrationStatus==PENDING'
-        }
+        // params: {
+        //     filters: 'registrationStatus==PENDING'
+        // }
     });
     return response.data;
 };
