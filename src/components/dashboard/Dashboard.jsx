@@ -6,10 +6,11 @@ import Typography from '@mui/material/Typography';
 import { DataGrid } from '@mui/x-data-grid';
 import ActionMenu from '../actions/Action';
 import Status from '../status/Status';
-//import Download from '../downloads/Download';
 import CircularColor from '../loader/Loading';
 import {enableActionStatuses} from '../../config/config';
 import { fetchServiceProviderListAction } from '../../redux/action/serviceProvider';
+import EmergencyStatus from '../status/EmergencyStatus';
+import Grade from 'components/valueGetter/Grade';
 
 export default function DashboardView({approvalBoard}) {
   // let navigate = useNavigate();
@@ -26,7 +27,8 @@ export default function DashboardView({approvalBoard}) {
 
   useEffect(() => {
       fetchData();
- });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+ }, []);
 
  useEffect(() => {
   setData(serviceProviderList);
@@ -42,32 +44,40 @@ export default function DashboardView({approvalBoard}) {
 //  }
 
  const columns = [
-  { field: 'id', headerName: 'ID', width: 250 },
+  { field: 'serviceType', headerName: 'Service Type', width: 200 },
   {
     field: 'fullName',
     headerName: 'Full name',
     description: 'This column has a value getter and is not sortable.',
     sortable: false,
-    width: 250,
+    width: 200,
     valueGetter: (params) =>
       `${params.row.firstName || ''} ${params.row.middleName || ''} ${params.row.lastName || ''}`,
   },
   {
     field: 'gender',
     headerName: 'Sex',
-    width: 200,
+    width: 100,
     editable: false,
   },
   {
     field: 'serviceExperience',
-    headerName: 'Experience',
+    headerName: 'Experience (in years)',
     width: 160,
     editable: false,
   },
   {
+    field: 'grade',
+    headerName: 'Grade',
+    width: 100,
+    renderCell: (params) => {
+      return <Grade grade={params.row.grade} />;
+    }
+  },
+  {
     field: 'contact.mobile',
     headerName: 'Phone Number',
-    width: 160,
+    width: 140,
     editable: false,
     valueGetter: (params) =>
     `${params.row.contact.mobile || ''}`,
@@ -80,14 +90,14 @@ export default function DashboardView({approvalBoard}) {
       return <Status statusValue={params.row.registrationStatus} />;
     }
   },
-  // {
-  //   field: 'documents',
-  //   headerName: 'Documents',
-  //   width: 100,
-  //   renderCell: (params) => {
-  //     return <Download serviceProviderId={params.row.id}/>
-  //   }
-  // },
+  {
+    field: 'serviceStatus',
+    headerName: 'Emergency',
+    width: 170,
+    renderCell: (params) => {
+      return <EmergencyStatus statusValue={params.row.serviceStatus} />;
+    }
+  },
   {
     field: 'actions',
     headerName: 'Actions',

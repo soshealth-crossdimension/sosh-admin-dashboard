@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // import { useNavigate } from "react-router-dom";
-import { Box, Container, Button } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { DataGrid } from '@mui/x-data-grid';
 import Status from '../status/Status';
@@ -72,6 +72,14 @@ export default function BookingDashboardView() {
     `${params.row.patientDetails.sex || ''}`,
   },
   {
+    field: 'patientDetails.age',
+    headerName: 'Age (Patient)',
+    width: 120,
+    editable: false,
+    valueGetter: (params) =>
+    `${params.row.patientDetails.age || ''} years`,
+  },
+  {
     field: 'serviceProvider.fullName',
     headerName: 'Service Provider',
     description: 'Service provider Full name',
@@ -104,35 +112,7 @@ export default function BookingDashboardView() {
     valueGetter: (params) =>
     `${params.row.paymentDetails?.paymentMode || ''}`
   },
-  // {
-  //   field: 'feeDetails',
-  //   headerName: 'Fees',
-  //   width: 120,
-  //   valueGetter: (params) =>
-  //   `${params.row.feeDetails || ''}`
-  // },
-  // {
-  //   field: 'documents',
-  //   headerName: 'Documents',
-  //   width: 100,
-  //   renderCell: (params) => {
-  //     return <Download serviceProviderId={params.row.id}/>
-  //   }
-  // },
-//   {
-//     field: 'actions',
-//     headerName: 'Actions',
-//     width: 90,
-//     renderCell: (params) => {
-//       return <ActionMenu serviceProviderId={params.row.id} onClick={handleAction}/>
-//     }
-// }
-
 ];
-
-  const handleCancelBookings = () => {
-    console.log('cancel booking----')
-  }
 
   return (
     <>
@@ -146,12 +126,12 @@ export default function BookingDashboardView() {
       </Container> :
       <Box sx={{ height: 700, width: '100%' }}>
         <div style={{ display: 'flex', flexDirection: 'row-reverse', padding: '0 10px 10px'}}>
-          <Button
+          {/* <Button
             variant="outlined"
             onClick={handleCancelBookings}
             >
               Cancel Bookings
-            </Button>
+            </Button> */}
         </div>
       {!isPending && <DataGrid
         rows={data}
