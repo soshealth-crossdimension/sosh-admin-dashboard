@@ -26,7 +26,7 @@ export default function DashboardView({approvalBoard}) {
 
   useEffect(() => {
       fetchData();
- }, []);
+ });
 
  useEffect(() => {
   setData(serviceProviderList);

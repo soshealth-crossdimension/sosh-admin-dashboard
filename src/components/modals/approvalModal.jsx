@@ -41,9 +41,7 @@ export default function ApprovalModal({
     const [errorMessage, setErrorMessage] = React.useState("");
     const [error, setError] = React.useState(false);
 
-    useEffect(() => {
-        setGrade(preApprovedGrade);
-    },[])
+    useEffect(() => {},[preApprovedGrade])
 
     const preparePayloadForGradeUpdate = () => {
         const payload = [{
