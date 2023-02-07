@@ -4,9 +4,10 @@ export default function Grade ({grade}) {
         gradeType = 'First';
     else if (grade === 2)
         gradeType = 'Second';
-    else 
+    else if (grade === 3)
         gradeType = 'Third';
-    
+    else
+        gradeType = 'N/A';
     return (
         `${gradeType}`
     );
