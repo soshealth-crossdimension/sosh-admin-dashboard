@@ -16,7 +16,7 @@ export default function SosAppBar() {
             <Toolbar style={{backgroundColor: '#081b30de', width: '100%', display: 'flex'}}>
                 <div style={{ display: 'flex', width: '100%'}}>
                 <Typography variant='h6' component='div'>
-                    SOS HealthCare Guidance Admin Dashboard.
+                    SOS HealthCare Guidance Admin Dashboard
                 </Typography>
                 </div>
                 <div style={{ display: 'flex', width: '100%', justifyContent: 'flex-end', paddingRight: '38px'}}>

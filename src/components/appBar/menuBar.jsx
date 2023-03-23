@@ -52,6 +52,9 @@ export default function MenuBar({ anchorEl, setAnchorEl }) {
         <MenuItem onClick={() => navigate('/bookings')}>
           <Book fontSize="medium" style={{ paddingRight: '4px'}}/> Bookings
         </MenuItem>
+        <MenuItem onClick={() => navigate('/customer')}>
+          <Person fontSize="medium" style={{ paddingRight: '4px'}}/> Customer
+        </MenuItem>
         <MenuItem onClick={() => navigate('/dashboard')}>
           <Person fontSize="medium" style={{ paddingRight: '4px'}}/> Service Provider
         </MenuItem>
