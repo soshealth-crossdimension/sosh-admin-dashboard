@@ -7,5 +7,5 @@ export const GET_DOCUMENTS_DOWNLOADED = '/sosAdminManagement/v1/downloadDocument
 export const UPDATE_SERVICE_PROVIDER_DETAILS= '/sosDataManagement/v1/serviceProvider/update';
 export const DOWNLOAD_FILES ='/sosAdminManagement/v1/downloadDocuments';
 export const GET_ALL_BOOKING = '/sosBookingManagement/v1/booking';
-
 export const GET_ALL_CUSTOMER = '/sosDataManagement/v1/customer';
+export const CANCEL_BOOKINGS = '/sosBookingManagement/v1/cancelBooking'

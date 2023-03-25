@@ -4,6 +4,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Book from '@mui/icons-material/Book';
 import Person from '@mui/icons-material/Person';
+import ServiceProvider from '@mui/icons-material/RunCircle';
+
 
 export default function MenuBar({ anchorEl, setAnchorEl }) {
     const navigate = useNavigate();
@@ -56,7 +58,7 @@ export default function MenuBar({ anchorEl, setAnchorEl }) {
           <Person fontSize="medium" style={{ paddingRight: '4px'}}/> Customer
         </MenuItem>
         <MenuItem onClick={() => navigate('/dashboard')}>
-          <Person fontSize="medium" style={{ paddingRight: '4px'}}/> Service Provider
+          <ServiceProvider fontSize="medium" style={{ paddingRight: '4px'}}/> Service Provider
         </MenuItem>
       </Menu>
     );
