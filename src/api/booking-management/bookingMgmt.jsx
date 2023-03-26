@@ -1,5 +1,5 @@
 import axios from "../axios";
-import { GET_ALL_BOOKING } from "../URI_CONFIG";
+import { GET_ALL_BOOKING, CANCEL_BOOKINGS } from "../URI_CONFIG";
 
 export const getAllBookingDetails = async () => {
     const response = await axios.get(GET_ALL_BOOKING, {});
@@ -7,9 +7,11 @@ export const getAllBookingDetails = async () => {
 };
 
 export const cancelBookings = async (payload) => {
-    const { bookingStatus } = payload;
-    const response = await axios.post(`${GET_ALL_BOOKING}/${bookingStatus}`, {
-       
+    const { bookingStatus, bookingIds } = payload;
+    const response = await axios.post(`${CANCEL_BOOKINGS}/${bookingStatus}`, undefined ,{
+       params: {
+        filters: `id==${bookingIds}`
+            }
     });
     return response.data;
 };

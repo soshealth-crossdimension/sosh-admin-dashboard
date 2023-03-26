@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 // import { useNavigate } from "react-router-dom";
 import { Box, Container } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import ActionMenu from '../actions/Action';
 import Status from '../status/Status';
 import CircularColor from '../loader/Loading';
@@ -104,7 +104,6 @@ export default function DashboardView({approvalBoard}) {
     width: 90,
     renderCell: (params) => {
       const isDisableAction = !enableActionStatuses.includes(params.row.registrationStatus);
-      console.log(params, 'params-------------')
       return <ActionMenu
       serviceProviderId={params.row.id}
       onClick={handleAction}
@@ -126,12 +125,13 @@ export default function DashboardView({approvalBoard}) {
      {isPending ? <Container>
        <CircularColor/>
       </Container> :
-      <Box sx={{ height: 700, width: '100%' }}>
+      <Box sx={{ height: 700, width: '100%', padding: '0 20px' }}>
       {!isPending && <DataGrid
         rows={data}
         columns={columns}
         pageSize={20}
         rowsPerPageOptions={[5]}
+        components={{ Toolbar: GridToolbar }}
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
       />}
