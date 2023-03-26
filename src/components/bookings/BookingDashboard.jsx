@@ -185,7 +185,7 @@ const handleCancelBookings = async() => {
         pageSize={20}
         rowsPerPageOptions={[5]}
         disableSelectionOnClick
-        isRowSelectable={(params) => params.row.bookingStatus === 'COMPLETED'} // CONFIRMED
+        isRowSelectable={(params) => params.row.bookingStatus === 'CONFIRMED'}
         selectionModel={selectedBookingsIds}
         checkboxSelection
         onSelectionModelChange={(idsValue) => { setSelectedBookingIds(idsValue)}}
