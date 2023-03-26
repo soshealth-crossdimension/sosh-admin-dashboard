@@ -117,7 +117,6 @@ export default function BookingDashboardView() {
     headerName: 'Booking Status',
     width: 150,
     renderCell: (params) => {
-    console.log(params.row.bookingStatus, 'params.row.bookingStatus---')
       return <Status statusValue={params.row.bookingStatus} />;
     }
   },
@@ -131,11 +130,16 @@ export default function BookingDashboardView() {
 ];
 
 const handleCancelBookings = async() => {
-  try{
-  const res = await cancelBookings({ bookingStatus:'ADMIN_CANCELLED', bookingIds: selectedBookingsIds.join(',') });
-  if(res) {
-    fetchData()
-  }
+  try {
+    const res = await cancelBookings({
+      bookingStatus:'ADMIN_CANCELLED',
+      bookingIds: selectedBookingsIds.join(',')
+    });
+
+    if(res) {
+      setSelectedBookingIds([]);
+      fetchData()
+    }
 } catch(error) {
   setOpenAlert(true);
   }
@@ -144,7 +148,6 @@ const handleCancelBookings = async() => {
   const handleClose = () => {
     setOpenAlert(false)
   }
-
 
   return (
     <>
@@ -171,6 +174,7 @@ const handleCancelBookings = async() => {
           <Button
             variant="outlined"
             onClick={handleCancelBookings}
+            disabled={!selectedBookingsIds.length}
             >
               Cancel Bookings
             </Button>
@@ -181,10 +185,10 @@ const handleCancelBookings = async() => {
         pageSize={20}
         rowsPerPageOptions={[5]}
         disableSelectionOnClick
-        isRowSelectable={(params) => params.row.bookingStatus === 'CONFIRMED'}
+        isRowSelectable={(params) => params.row.bookingStatus === 'COMPLETED'} // CONFIRMED
+        selectionModel={selectedBookingsIds}
         checkboxSelection
-        onSelectionModelChange={(idsValue) => { console.log(idsValue, 'triger row')
-        setSelectedBookingIds(idsValue)}}
+        onSelectionModelChange={(idsValue) => { setSelectedBookingIds(idsValue)}}
         experimentalFeatures={{ newEditingApi: true }}
         components={{
           BaseCheckbox: Checkbox,
