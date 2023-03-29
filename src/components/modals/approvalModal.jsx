@@ -42,8 +42,8 @@ export default function ApprovalModal({
     const [error, setError] = React.useState(false);
 
     useEffect(() => {
-        setGrade(preApprovedGrade);
-    },[])
+        setGrade(preApprovedGrade)
+    },[preApprovedGrade])
 
     const preparePayloadForGradeUpdate = () => {
         const payload = [{
@@ -85,9 +85,9 @@ export default function ApprovalModal({
         await updateServiceProvider(patchElemet, serviceProviderId,);
     }
 
-    const handleCheckChange = (event) => {
-        setChecked(event.target.checked);
-    };
+    // const handleCheckChange = (event) => {
+    //     setChecked(event.target.checked);
+    // };
 
 
     const handleSubmit = async (e) => {

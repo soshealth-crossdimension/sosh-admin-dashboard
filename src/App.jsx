@@ -4,6 +4,7 @@ import DashboardView from './components/dashboard/Dashboard';
 import LoginView from './components/login/Login';
 import SosAppBar from './components/appBar/appBar';
 import BookingDashboardView from './components/bookings/BookingDashboard';
+import CustomerDashboardView from 'components/customer/CustomerDashboard';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
             element={< DashboardView />} />
           <Route exact path="/bookings"
             element={< BookingDashboardView />} />
+          <Route exact path="/customer"
+            element={< CustomerDashboardView />} />
         </Routes>
       </Router>
     </>
