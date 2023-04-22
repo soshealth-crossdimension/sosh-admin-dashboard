@@ -45,6 +45,7 @@ export default function DashboardView({approvalBoard}) {
 
  const columns = [
   { field: 'registrationDate', headerName: 'Registration Date', width: 200 },
+  { field: 'serviceType', headerName: 'Provider Type', width: 200 },
   {
     field: 'fullName',
     headerName: 'Full name',
