@@ -1,0 +1,11 @@
+.reset-button-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-top: 2px;
+}
+
+.reset-button {
+    font-size: small;
+    font-weight: 400;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+}

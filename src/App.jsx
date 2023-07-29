@@ -4,23 +4,35 @@ import DashboardView from './components/dashboard/Dashboard';
 import LoginView from './components/login/Login';
 import SosAppBar from './components/appBar/appBar';
 import BookingDashboardView from './components/bookings/BookingDashboard';
-import CustomerDashboardView from 'components/customer/CustomerDashboard';
+import CustomerDashboardView from './components/Customer';
+import PrivateRoute from './routes/privateRoutes';
+import { getItemFromStorage } from './utils/useLocalStorage';
 
 function App() {
+ 
+  const isUserLogin = getItemFromStorage('isUserLogin')
+  console.log(isUserLogin, 'isUserLogin----app')
+
   return (
     <>
       <Router>
-      <SosAppBar />
+        <SosAppBar />
         <Routes>
           <Route exact path="/"
             element={<LoginView />} />
 
           <Route exact path="/dashboard"
-            element={< DashboardView />} />
+            element={<PrivateRoute isLoggedIn={isUserLogin}>
+              < DashboardView />
+            </PrivateRoute>} />
           <Route exact path="/bookings"
-            element={< BookingDashboardView />} />
+            element={<PrivateRoute isLoggedIn={isUserLogin}>
+              < BookingDashboardView />
+            </PrivateRoute>} />
           <Route exact path="/customer"
-            element={< CustomerDashboardView />} />
+            element={<PrivateRoute isLoggedIn={isUserLogin}>
+              < CustomerDashboardView />
+            </PrivateRoute>} />
         </Routes>
       </Router>
     </>
