@@ -1,6 +1,8 @@
 //export const BASE_URL = 'https://www.crossdimension.in';
 export const BASE_URL = 'https://www.soshealth.club';
 
+export const ADMIN_LOGIN = '/sosAdminManagement/v1/login';
+export const RESET_PASSWORD = '/sosAdminManagement/v1/reset/password'
 export const GET_SERVICE_PROVIDER_ALL= '/sosDataManagement/v1/serviceProvider';
 export const CREATE_PRICE_PROVIDER = '/sosPriceManagement/v1/pricing';
 export const GET_DOCUMENTS_DOWNLOADED = '/sosAdminManagement/v1/downloadDocuments';

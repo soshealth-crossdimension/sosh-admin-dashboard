@@ -4,16 +4,27 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Book from '@mui/icons-material/Book';
 import Person from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';
 import ServiceProvider from '@mui/icons-material/RunCircle';
+import { removeItemFromStorage } from '../../utils/useLocalStorage';
+import { resetDataAction } from 'redux/action/login';
+import { useDispatch } from 'react-redux';
 
 
 export default function MenuBar({ anchorEl, setAnchorEl }) {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const open = Boolean(anchorEl);
     
     const handleClose = () => {
       setAnchorEl(null);
     };
+
+    const handleLogout = () => {
+      removeItemFromStorage('isUserLogin');
+      dispatch(resetDataAction())
+      navigate('/')
+    }
 
     return(
                 <Menu
@@ -59,6 +70,9 @@ export default function MenuBar({ anchorEl, setAnchorEl }) {
         </MenuItem>
         <MenuItem onClick={() => navigate('/dashboard')}>
           <ServiceProvider fontSize="medium" style={{ paddingRight: '4px'}}/> Service Provider
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>
+          <LogoutIcon fontSize="medium" style={{ paddingRight: '4px'}}/> Log out
         </MenuItem>
       </Menu>
     );
