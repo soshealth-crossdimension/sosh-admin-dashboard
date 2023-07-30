@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Avatar, Button, Grid, Paper, TextField, Snackbar } from '@mui/material';
+import { Avatar, Button, Grid, Paper, TextField, Snackbar, InputAdornment } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import InfoIcon from '@mui/icons-material/Info';
@@ -11,11 +11,12 @@ import Alert from '@mui/material/Alert';
 import { loginAdminAction, resetPasswordAction, setNotificationClose } from "../../redux/action/login";
 import './login.css';
 import { getItemFromStorage } from "utils/useLocalStorage";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 export default function LoginView() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const isUserLogin = useMemo(() => getItemFromStorage('isUserLogin'), [])
 
     const { isError, isLoggedIn, severity, showNotification, message, isLoadingResetPassword, isLoadingAdminLogin } = useSelector(state => state.logInUser)
 
@@ -26,15 +27,22 @@ export default function LoginView() {
 
     const [wrong, setWrong] = useState(false)
 
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleShowPasswordClick = () => {
+        setShowPassword(!showPassword);
+    }
+
     useEffect(() => {
         setWrong(isError)
     }, [isError])
 
     useEffect(() => {
-        if (isLoggedIn || isUserLogin) {
+       const isUserLogin = getItemFromStorage('isUserLogin')
+        if ((isLoggedIn || isUserLogin) && !isLoadingAdminLogin) {
             navigate('/dashboard')
         }
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [isLoggedIn, isLoadingAdminLogin]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     const handleLoginClick = (e) => {
@@ -74,11 +82,6 @@ export default function LoginView() {
 
     const isDisabledSignIn = !(input.phoneNumber && input.password) || (isLoadingResetPassword || isLoadingAdminLogin)
 
-    if (isLoggedIn || isUserLogin) {
-        navigate('/dashboard')
-        return;
-    }
-
     return (
         <Grid>
 
@@ -87,6 +90,7 @@ export default function LoginView() {
                 open={showNotification}
                 onClose={() => { }}
                 key={'top-right'}
+                autoHideDuration={6000}
             >
                 <Alert severity={severity} onClose={handleClose}>{message}</Alert>
             </Snackbar>
@@ -96,14 +100,34 @@ export default function LoginView() {
                     <h2>Sign In</h2>
                 </Grid>
                 <TextField label='Phone Number' placeholder="Enter Phone Number" variant="standard" name="phoneNumber" value={input.phoneNumber} onChange={handleChange} fullWidth required />
-                <TextField label='Password' placeholder="Enter Password" type='Password' variant="standard" name="password" value={input.password} onChange={handleChange} fullWidth required style={{ marginTop: '10px' }} />
+                <TextField label='Password' placeholder="Enter Password" type={showPassword ? "text" : "password"} 
+                    variant="standard" name="password" value={input.password} onChange={handleChange} 
+                    fullWidth required style={{ marginTop: '10px' }} 
+                    InputProps={{ 
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleShowPasswordClick}
+                            >
+                              {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}
+                />
                 <div className="reset-button-wrapper">
                     <Tooltip title='Enter phone number to reset password'>
                         <IconButton>
                             <InfoIcon size={10} />
                         </IconButton>
                     </Tooltip>
-                    <Button style={resetButton} onClick={handleReset} disabled={!input.phoneNumber.length || isLoadingResetPassword}>Reset password</Button> </div>
+                    <Button style={resetButton} onClick={handleReset} disabled={!input.phoneNumber.length || isLoadingResetPassword}>Reset password 
+                    {isLoadingResetPassword ? 
+                    <CircularProgress color="inherit" size={20} />
+                     : ''}
+                    </Button>
+                </div>
                 {wrong ? <p style={{ color: 'red' }}>Please enter correct credentials!!!!</p> : ''}
                 <Button variant="contained" onClick={handleLoginClick} fullWidth style={{ marginTop: '80px' }} disabled={isDisabledSignIn}>{isLoadingAdminLogin ? <CircularProgress color="inherit" size={20} /> : 'Sign In'}</Button>
             </Paper>
