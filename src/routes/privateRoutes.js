@@ -1,7 +1,10 @@
 import { Navigate } from "react-router-dom";
-const PrivateRoute = ({ isLoggedIn, children }) => {
-  console.log(isLoggedIn, 'isLoggedIn----')
-  if (!isLoggedIn) {
+import { getItemFromStorage } from '../utils/useLocalStorage';
+
+const PrivateRoute = ({ children }) => {
+  const isUserLogin = getItemFromStorage('isUserLogin')
+
+  if (!isUserLogin) {
     return <Navigate to="/" replace />;
   }
   return children;

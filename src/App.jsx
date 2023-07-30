@@ -6,12 +6,8 @@ import SosAppBar from './components/appBar/appBar';
 import BookingDashboardView from './components/bookings/BookingDashboard';
 import CustomerDashboardView from './components/Customer';
 import PrivateRoute from './routes/privateRoutes';
-import { getItemFromStorage } from './utils/useLocalStorage';
 
 function App() {
- 
-  const isUserLogin = getItemFromStorage('isUserLogin')
-  console.log(isUserLogin, 'isUserLogin----app')
 
   return (
     <>
@@ -22,15 +18,15 @@ function App() {
             element={<LoginView />} />
 
           <Route exact path="/dashboard"
-            element={<PrivateRoute isLoggedIn={isUserLogin}>
+            element={<PrivateRoute>
               < DashboardView />
             </PrivateRoute>} />
           <Route exact path="/bookings"
-            element={<PrivateRoute isLoggedIn={isUserLogin}>
+            element={<PrivateRoute>
               < BookingDashboardView />
             </PrivateRoute>} />
           <Route exact path="/customer"
-            element={<PrivateRoute isLoggedIn={isUserLogin}>
+            element={<PrivateRoute >
               < CustomerDashboardView />
             </PrivateRoute>} />
         </Routes>
