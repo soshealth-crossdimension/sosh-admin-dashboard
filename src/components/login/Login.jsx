@@ -8,7 +8,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Alert from '@mui/material/Alert';
-import { loginAdminAction, resetPasswordAction, setNotificationClose } from "../../redux/action/login";
+import { loginAdminAction, resetPasswordAction, setNotificationClose, validAdminAction } from "../../redux/action/login";
 import './login.css';
 import { getItemFromStorage } from "utils/useLocalStorage";
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -18,7 +18,7 @@ export default function LoginView() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const { isError, isLoggedIn, severity, showNotification, message, isLoadingResetPassword, isLoadingAdminLogin } = useSelector(state => state.logInUser)
+    const { isError, isLoggedIn, severity, showNotification, message, isLoadingResetPassword, isLoadingAdminLogin, isValidAdmin } = useSelector(state => state.logInUser)
 
     const [input, setInput] = useState({
         phoneNumber: "",
@@ -41,8 +41,10 @@ export default function LoginView() {
        const isUserLogin = getItemFromStorage('isUserLogin')
         if ((isLoggedIn || isUserLogin) && !isLoadingAdminLogin) {
             navigate('/dashboard')
+        } else if (isValidAdmin && !isLoadingResetPassword){
+            navigate('/reset');
         }
-    }, [isLoggedIn, isLoadingAdminLogin]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [isLoggedIn, isLoadingAdminLogin, isValidAdmin, isLoadingResetPassword]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     const handleLoginClick = (e) => {
@@ -63,9 +65,11 @@ export default function LoginView() {
     };
 
     const handleReset = () => {
-        dispatch(resetPasswordAction({
-            phoneNumber: input.phoneNumber
-        }))
+        dispatch(validAdminAction({
+            requestPayload: {
+                phoneNumber: input.phoneNumber
+            },
+        }));
     }
 
     const handleClose = () => {

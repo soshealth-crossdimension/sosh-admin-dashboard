@@ -6,6 +6,7 @@ import SosAppBar from './components/appBar/appBar';
 import BookingDashboardView from './components/bookings/BookingDashboard';
 import CustomerDashboardView from './components/Customer';
 import PrivateRoute from './routes/privateRoutes';
+import ResetPasswordView from 'components/resetPassword/ResetPassword';
 
 function App() {
 
@@ -16,8 +17,12 @@ function App() {
         <Routes>
           <Route exact path="/"
             element={<LoginView />} />
-
-          <Route exact path="/dashboard"
+          
+          <Route exact path="/reset"
+            element={<PrivateRoute>
+              < ResetPasswordView />
+            </PrivateRoute>} />
+            <Route exact path="/dashboard"
             element={<PrivateRoute>
               < DashboardView />
             </PrivateRoute>} />

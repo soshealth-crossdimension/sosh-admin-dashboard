@@ -5,7 +5,8 @@ const initialState = {
     isUserLogin: false,
     isError: false,
     isLoadingResetPassword: false,
-    isLoadingAdminLogin: false
+    isLoadingAdminLogin: false,
+    isValidAdmin: false
 }
 
 export function loginReducer(state = initialState, action) {
@@ -63,7 +64,17 @@ export function loginReducer(state = initialState, action) {
             return {
                 ...initialState
             }
-
+        
+        case loginAction.isAdminValidationSuccess:
+            return {
+                ...state,
+                isValidAdmin: action.payload
+            }
+        case loginAction.isAdminValidationFaliure:
+            return {
+                ...state,
+                isValidAdmin: true
+            }
         default:
             return { ...state }
 
