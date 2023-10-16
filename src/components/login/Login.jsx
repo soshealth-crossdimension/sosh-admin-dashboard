@@ -8,7 +8,9 @@ import InfoIcon from '@mui/icons-material/Info';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Alert from '@mui/material/Alert';
-import { loginAdminAction, resetPasswordAction, setNotificationClose } from "../../redux/action/login";
+import { loginAdminAction, setNotificationClose, validAdminAction, setPhoneNumberAction } from "../../redux/action/login";
+import { fetchOtpAction } from '../../redux/action/resetPassword';
+
 import './login.css';
 import { getItemFromStorage } from "utils/useLocalStorage";
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -18,7 +20,7 @@ export default function LoginView() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const { isError, isLoggedIn, severity, showNotification, message, isLoadingResetPassword, isLoadingAdminLogin } = useSelector(state => state.logInUser)
+    const { isError, isLoggedIn, severity, showNotification, message, isLoadingResetPassword, isLoadingAdminLogin, isValidAdmin, invalidErrorMessage, status } = useSelector(state => state.logInUser)
 
     const [input, setInput] = useState({
         phoneNumber: "",
@@ -40,16 +42,25 @@ export default function LoginView() {
     useEffect(() => {
        const isUserLogin = getItemFromStorage('isUserLogin')
         if ((isLoggedIn || isUserLogin) && !isLoadingAdminLogin) {
-            navigate('/dashboard')
+                navigate('/dashboard'); 
+        } else if (isValidAdmin && !isLoadingResetPassword){
+           navigate('/otp-validation');
+           dispatch(fetchOtpAction({
+            to: input.phoneNumber,
+            message: "OTP for Login in SOS-Health Care is -",
+          }))
+        } else if(status === 'ACCEPTED') {
+                navigate('/reset-password');
         }
-    }, [isLoggedIn, isLoadingAdminLogin]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [isLoggedIn, isLoadingAdminLogin, isValidAdmin, isLoadingResetPassword]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     const handleLoginClick = (e) => {
         e.preventDefault();
+        dispatch(setPhoneNumberAction({ phoneNumber: input.phoneNumber }));
         dispatch(loginAdminAction({
             requestPayload: {
-                phone: input.phoneNumber,
+                phoneNumber: input.phoneNumber,
                 password: input.password
             },
         }))
@@ -63,9 +74,12 @@ export default function LoginView() {
     };
 
     const handleReset = () => {
-        dispatch(resetPasswordAction({
-            phoneNumber: input.phoneNumber
-        }))
+        dispatch(setPhoneNumberAction({ phoneNumber: input.phoneNumber }));
+        dispatch(validAdminAction({
+            requestPayload: {
+                phoneNumber: input.phoneNumber
+            },
+        }));
     }
 
     const handleClose = () => {
@@ -99,6 +113,7 @@ export default function LoginView() {
                     <Avatar style={avatar}><LockOutlinedIcon /></Avatar>
                     <h2>Sign In</h2>
                 </Grid>
+                <div className="invalidErrorMessage">{invalidErrorMessage}</div>
                 <TextField label='Phone Number' placeholder="Enter Phone Number" variant="standard" name="phoneNumber" value={input.phoneNumber} onChange={handleChange} fullWidth required />
                 <TextField label='Password' placeholder="Enter Password" type={showPassword ? "text" : "password"} 
                     variant="standard" name="password" value={input.password} onChange={handleChange} 
