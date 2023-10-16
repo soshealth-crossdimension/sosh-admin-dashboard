@@ -6,7 +6,10 @@ const initialState = {
     isError: false,
     isLoadingResetPassword: false,
     isLoadingAdminLogin: false,
-    isValidAdmin: false
+    isValidAdmin: false,
+    invalidErrorMessage: '',
+    phoneNumber: '',
+    isValidOtp: false,
 }
 
 export function loginReducer(state = initialState, action) {
@@ -18,7 +21,7 @@ export function loginReducer(state = initialState, action) {
                 ...state,
                 ...action.payload,
                 isLoggedIn: isUserAuthenticate,
-                isError: false
+                isError: false,
             }
         case loginAction.isLoadingResetPassword:
             return {
@@ -44,7 +47,7 @@ export function loginReducer(state = initialState, action) {
                 ...action.payload,
                 showNotification: true,
                 severity: "success",
-                message: 'Password has been updated and shared via sms! Please check your phone.'
+                message: 'Password has been updated successfully.Please login with new password.'
             }
         case loginAction.isResetPasswordFailed:
             return {
@@ -73,7 +76,13 @@ export function loginReducer(state = initialState, action) {
         case loginAction.isAdminValidationFaliure:
             return {
                 ...state,
-                isValidAdmin: true
+                ...action.payload,
+                isValidAdmin: false
+            }
+        case loginAction.setPhoneNumber:
+            return {
+                ...state,
+                ...action.payload
             }
         default:
             return { ...state }

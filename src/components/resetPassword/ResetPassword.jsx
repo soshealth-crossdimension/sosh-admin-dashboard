@@ -1,19 +1,23 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import OTPEntry from './otpScreen';
+import PasswordReset from './resetScreen'
+import { useSelector } from "react-redux";
+import './otpScreen.css';
 
-export default function ResetPasswordView() {
-    // const { state } = useLocation();
-    // const phoneNumber = state?.phoneNumber;
+ function ResetPasswordView() {
+  const { isValidOtp } = useSelector(state => state.resetPassword)
 
-    // useEffect(() => {
-    //     dispatch(
-    //         fetchOtpAction({
-    //         to: phoneNumber,
-    //         message: "OTP for Login in SOS-Health Care is -",
-    //         })
-    //     );
-    // }, []);
+    const handleSubmit = (e,otp) => {
+        e.preventDefault();
+        // Handle OTP verification logic here
+        console.log('Entered OTP:', otp);
+        // Redirect or show a success message based on verification
+      };
+
     return (
-        <h1>In Reset Password Page {phoneNumber}</h1>
+        <div className="reset-wrapper">
+        {!isValidOtp ? <OTPEntry handleSubmit={handleSubmit}/> : <PasswordReset />}
+        </div>
     );
 }
+
+export default ResetPasswordView

@@ -4,9 +4,10 @@ import DashboardView from './components/dashboard/Dashboard';
 import LoginView from './components/login/Login';
 import SosAppBar from './components/appBar/appBar';
 import BookingDashboardView from './components/bookings/BookingDashboard';
-import CustomerDashboardView from './components/Customer';
+import CustomerDashboardView from './components/customer';
 import PrivateRoute from './routes/privateRoutes';
-import ResetPasswordView from 'components/resetPassword/ResetPassword';
+import ResetPassword from './components/resetPassword/resetScreen';
+import OtpValidation from './components/resetPassword/otpScreen';
 
 function App() {
 
@@ -17,11 +18,12 @@ function App() {
         <Routes>
           <Route exact path="/"
             element={<LoginView />} />
-          
-          <Route exact path="/reset"
-            element={<PrivateRoute>
-              < ResetPasswordView />
-            </PrivateRoute>} />
+          <Route exact path="/reset-password"
+            element={< ResetPassword />}
+          />
+          <Route exact path="/otp-validation"
+            element={< OtpValidation />}
+          />
             <Route exact path="/dashboard"
             element={<PrivateRoute>
               < DashboardView />

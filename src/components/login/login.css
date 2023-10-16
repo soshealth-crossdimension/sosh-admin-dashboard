@@ -9,3 +9,8 @@
     font-weight: 400;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
 }
+
+.invalidErrorMessage {
+    color: red;
+    margin: 20px 0;
+}

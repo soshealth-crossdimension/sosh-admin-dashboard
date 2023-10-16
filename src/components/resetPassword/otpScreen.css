@@ -1,0 +1,69 @@
+.reset-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Vertically center items */
+  align-items: center;
+  /* Horizontally center items */
+  min-height: 60vh;
+}
+
+.otp-container {
+  max-width: 400px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+}
+
+h2 {
+  text-align: center;
+}
+
+.input-field {
+  width: 95%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 16px;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.invalid-password {
+  color: #ff0000;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.reset-otp-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 2px;
+}
+
+.invalid-error-message {
+  color: #ff0000;
+  font-size: 14px;
+  margin: 5px 0;
+}

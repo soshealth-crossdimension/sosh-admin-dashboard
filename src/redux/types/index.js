@@ -12,7 +12,12 @@ const types = {
     isAdminValidationSuccess: 'VALID_ADMIN',
     isAdminValidationFaliure: 'INVALID_ADMIN',
     fetchOtpSuccess: 'FETCH_OTP_SUCCESS',
-    fetchOtpFailed: 'FETCH_OTP_FAILED'
+    fetchOtpFailed: 'FETCH_OTP_FAILED',
+    isLoadingOtp: 'IS_LOADING_OTP',
+    setPhoneNumber: 'SET_PHONE_NUMBER',
+    submitOtpSuccess: 'SUBMIT_OTP_SUCCESS',
+    submitOtpFailed: 'SUBMIT_OTP_FAILED',
+    resetDataPassword: 'RESET_DATA_PASSWORD'
 }
 
 
