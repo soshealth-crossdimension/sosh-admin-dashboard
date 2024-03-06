@@ -4,23 +4,38 @@ import DashboardView from './components/dashboard/Dashboard';
 import LoginView from './components/login/Login';
 import SosAppBar from './components/appBar/appBar';
 import BookingDashboardView from './components/bookings/BookingDashboard';
-import CustomerDashboardView from 'components/customer/CustomerDashboard';
+import CustomerDashboardView from './components/customer';
+import PrivateRoute from './routes/privateRoutes';
+import ResetPassword from './components/resetPassword/resetScreen';
+import OtpValidation from './components/resetPassword/otpScreen';
 
 function App() {
+
   return (
     <>
       <Router>
-      <SosAppBar />
+        <SosAppBar />
         <Routes>
           <Route exact path="/"
             element={<LoginView />} />
-
-          <Route exact path="/dashboard"
-            element={< DashboardView />} />
+          <Route exact path="/reset-password"
+            element={< ResetPassword />}
+          />
+          <Route exact path="/otp-validation"
+            element={< OtpValidation />}
+          />
+            <Route exact path="/dashboard"
+            element={<PrivateRoute>
+              < DashboardView />
+            </PrivateRoute>} />
           <Route exact path="/bookings"
-            element={< BookingDashboardView />} />
+            element={<PrivateRoute>
+              < BookingDashboardView />
+            </PrivateRoute>} />
           <Route exact path="/customer"
-            element={< CustomerDashboardView />} />
+            element={<PrivateRoute >
+              < CustomerDashboardView />
+            </PrivateRoute>} />
         </Routes>
       </Router>
     </>

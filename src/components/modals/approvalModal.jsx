@@ -97,11 +97,6 @@ export default function ApprovalModal({
             setErrorMessage(
                 "Please fill all the fields with proper value"
             );
-        }  else if (grade === 100) {
-            setError(true);
-            setErrorMessage(
-                "Please select proper grade"
-            );
         } else {
             setError(false);
             //const payload = preparePayloadForPrice();
